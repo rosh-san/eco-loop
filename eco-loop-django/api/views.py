@@ -1,3 +1,4 @@
+import json
 from django.http import JsonResponse
 from .models import PickupTicket
 
@@ -16,3 +17,16 @@ def get_tickets(request):
         })
         
     return JsonResponse(tickets_list, safe=False)
+
+@csrf_exempt
+def create_ticket(request):
+    if request.method == 'POST': 
+        data = json.loads(request.body)
+        new_ticket = PickupTicket.objects.create(
+            item_type=data['item_type'],
+            quantity=data['quantity'], 
+            address=data['address']
+    )
+    return JsonResponse({
+        "message": "Ticket created successfully."
+    })    
