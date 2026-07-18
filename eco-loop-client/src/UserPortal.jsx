@@ -11,16 +11,16 @@ function UserPortal() {
 
     // Pack the data exactly how the backend expects it in req.body
     const ticketData = {
-      user: userName,
+      item_type: item,
+      quantity: 1,
       address: address,
-      item: item
     };
 
     setIsSubmitting(true);
 
     try {
       // Send the POST request across the bridge to Port 3000
-      const response = await fetch('https://python-practice-ttra.onrender.com/api/request-pickup', {
+      const response = await fetch('http://127.0.0.1:8000/api/tickets/create/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

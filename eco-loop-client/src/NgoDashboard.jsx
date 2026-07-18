@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import TicketCard from './TicketCard';
 
 function NgoDashboard() {
-  // State to hold the array of tickets from PostgreSQL
+  // State to hold the array of tickets from PostgreSQL via Django
   const [pickups, setPickups] = useState([]);
 
   useEffect(() => {
@@ -13,18 +13,18 @@ function NgoDashboard() {
   const fetchTickets = async () => {
     try {
       const token = localStorage.getItem('ngoToken');
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/view-pickups`, {
+      const response = await fetch('http://127.0.0.1:8000/api/tickets/', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          // 'Authorization': `Bearer ${token}`
         }
       });
       const data = await response.json();
       if (response.ok) {
-        setPickups(data.activePickups); // Save the DB rows into React memory.
+        setPickups(data); // Save the DB rows into React memory.
       } else {
-        console.error("Backend rejected us:", data.error);
+        console.error("Backend rejected us:", data);
       }
       
     } catch (error) {
@@ -34,6 +34,9 @@ function NgoDashboard() {
 
   // The PATCH Route: Accept a ticket.
   const acceptPickup = async (id) => {
+
+    alert("Python Backend Note: We need to build the Django accept_ticket route next!");
+    /*
     try {
       const token = localStorage.getItem('ngoToken');
       const response = await fetch(`${import.meta.env.VITE_API_URL}/accept-pickup/${id}`, {
@@ -50,7 +53,7 @@ function NgoDashboard() {
       }
     } catch (error) {
       console.error("Failed to accept ticket:", error);
-    }
+    } */
   };
 
   // The UI.
