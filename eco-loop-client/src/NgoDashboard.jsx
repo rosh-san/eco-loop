@@ -35,25 +35,21 @@ function NgoDashboard() {
   // The PATCH Route: Accept a ticket.
   const acceptPickup = async (id) => {
 
-    alert("Python Backend Note: We need to build the Django accept_ticket route next!");
-    /*
     try {
       const token = localStorage.getItem('ngoToken');
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/accept-pickup/${id}`, {
+      const response = await fetch(`http://127.0.0.1:8000/api/tickets/${id}/accept/`, {
         method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        }
       });
       
       if (response.ok) {
         // If successful, instantly re-fetch the tickets to update the screen
         fetchTickets(); 
-      }
+      } else {
+        console.error("Failed to accept ticket on backend.");
+      } 
     } catch (error) {
-      console.error("Failed to accept ticket:", error);
-    } */
+      console.error("Network error while accepting ticket:", error);
+    }   
   };
 
   // The UI.

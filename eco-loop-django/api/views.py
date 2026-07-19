@@ -1,6 +1,6 @@
-import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+import json
 from .models import PickupTicket
 
 def get_tickets(request):
@@ -31,3 +31,18 @@ def create_ticket(request):
     return JsonResponse({
         "message": "Ticket created successfully."
     })    
+
+@csrf_exempt
+def accept_ticket(request, pk):
+    if request.method == 'PATCH':
+        try:
+            ticket = PickupTicket.objects.get(id=pk)
+            ticket.status = 'accepted'
+            ticket.save()
+            return JsonResponse({
+                "message": "Ticket Accepted."
+            })
+        except PickupTicket.DoesNotExist:
+            return JsonResponse({"error": "Ticket Not Found"}, status=404)
+    return JsonResponse ({"error": "Method Not Allowed"}, status=405)
+    
